@@ -20,6 +20,12 @@ virtualenv env --python=python3.8 # Python versions >= 3.7 work fine
 source env/bin/activate
 ```
 
+### Get the data
+
+```shell
+sh get_data.sh
+```
+
 ### Install everything
 
 Make sure you're in your virtual environment first!
