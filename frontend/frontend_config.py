@@ -1,2 +1,2 @@
-frontend_endpoint = "http://0.0.0.0:45678/search"
-images_path = "../../data/images/"
+frontend_endpoint = "http://3.138.155.170:45679/search"
+images_path = "../data/images/"
