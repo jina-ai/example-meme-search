@@ -5,6 +5,7 @@ from backend_config import (
     backend_port,
     backend_workdir,
     backend_datafile,
+    max_docs,
 )
 from executors import MyTransformer, MyIndexer
 
@@ -80,7 +81,7 @@ if __name__ == "__main__":
     args.port_expose = backend_port
     args.workdir = backend_workdir
 
-    docs = prep_json(backend_datafile, max_docs=1000)
+    docs = prep_json(backend_datafile, max_docs=max_docs)
 
     # # Run the Flow
     run_flow(inputs=docs, args=args)
