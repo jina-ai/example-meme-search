@@ -1,7 +1,5 @@
 # AI-powered meme search
 
-![](./video.gif)
-
 This is a simple example to show how to build an AI-powered search engine for searching memes using the [Jina](https://github.com/jina-ai/jina/) framework. It indexes and searches a subset of the [imgflip dataset](https://www.kaggle.com/abhishtagatya/imgflipscraped-memes-caption-dataset) from Kaggle.
 
 ## Instructions
