@@ -65,38 +65,7 @@ if st.button(label="Search"):
 
         matches = get_data(query=query, endpoint=frontend_endpoint, top_k=10)
         for cell, match in zip(all_cells, matches):
-            # st.write(match["tags"])
             cell.image('http:'+match["tags"]["image_url"])
-            # st.image(images_path+match["tags"]["image_name"])
-
-        # for match in matches:
-            # col1, col2 = st.beta_columns([1, 4])
-            # with col1:
-                # st.image(match["tags"]["Icon URL"])
-
-            # with col2:
-                # app_name = f'**[{sanitize_string(match["tags"]["Name"])}]({match["tags"]["URL"]})**'
-                # app_rating = f'{get_star_string(match["tags"]["Average User Rating"])}'
-                # app_genres = f'<small>{match["tags"]["Genres"]}</small>'
-                # app_desc = shorten_string(sanitize_string(match["text"]), word_count=50)
-
-                # st.markdown(f"""
-                            # {app_name}\t{app_rating}\n
-                            # {app_genres}\n
-                            # {app_desc}
-                            # """, unsafe_allow_html=True)
-
-                # st.markdown(
-                    # f'**[{sanitize_string(match["tags"]["Name"])}]({match["tags"]["URL"]})**     {get_star_string(match["tags"]["Average User Rating"])}'
-                # )
-                # st.markdown(f'<small>{match["tags"]["Genres"]}</small>', unsafe_allow_html=True)
-                # st.markdown(
-                    # f'{shorten_string(sanitize_string(match["text"]), word_count=50)}'
-                # )
-                # st.button(
-                    # label=get_price_string(match["tags"]["Price"]), key=match["id"]
-                # )
-
 st.sidebar.title("Jina Meme Search")
 st.sidebar.markdown(
     """
@@ -107,7 +76,7 @@ This is an example meme search engine using the [Jina neural search framework](h
 - Backend: [Jina](https://github.com/jina-ai/jina/)
 - Frontend: [Streamlit](https://www.streamlit.io/)
 
-[Visit the repo](https://github.com/alexcg1/jina-app-store-example)
+[Visit the repo](https://github.com/alexcg1/jina-meme-search-example)
 
 <a href="https://github.com/jina-ai/jina/"><img src="https://github.com/alexcg1/jina-app-store-example/blob/a8f64332c6a5b3ae42df07d4bd615ff1b7ece4d9/frontend/powered_by_jina.png?raw=true" width=256></a>
 """, unsafe_allow_html=True
