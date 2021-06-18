@@ -1,16 +1,16 @@
-# AI-powered app store search
+# AI-powered meme search
 
 ![](./video.gif)
 
-This is a simple example to show how to build an AI-powered search engine for an app store using the [Jina](https://github.com/jina-ai/jina/) framework. It indexes and searches a subset of the [17K Mobile Strategy Games dataset](https://www.kaggle.com/tristan581/17k-apple-app-store-strategy-games) from Kaggle.
+This is a simple example to show how to build an AI-powered search engine for searching memes using the [Jina](https://github.com/jina-ai/jina/) framework. It indexes and searches a subset of the [imgflip dataset](https://www.kaggle.com/abhishtagatya/imgflipscraped-memes-caption-dataset) from Kaggle.
 
 ## Instructions
 
 ### Clone this repo
 
 ```shell
-git clone git@github.com:alexcg1/jina-app-store-example.git
-cd jina-app-store-example
+git clone git@github.com:alexcg1/jina-meme-search-example.git
+cd jina-meme-search-example
 ```
 
 ### Create a virtual environment
@@ -49,7 +49,7 @@ You'll need to do this after every reboot. Or you can [read the instructions](ht
 `app.py` indexes the dataset then opens up a REST gateway for you to search:
 
 ```shell
-cd backend
+cd text_search
 python app.py
 ```
 
@@ -58,7 +58,7 @@ python app.py
 In another terminal:
 
 ```sh
-cd jina-app-store-example/
+cd jina-meme-search-example/
 source env/bin/activate
 cd frontend
 streamlit app.py
@@ -69,23 +69,19 @@ Then open http://localhost:8501 in your browser
 ### Search from the terminal
 
 ```shell
-curl --request POST -d '{"top_k":10,"mode":"search","data":["hello world"]}' -H 'Content-Type: application/json' 'http://0.0.0.0:45678/search'
+curl --request POST -d '{"top_k":10,"mode":"search","data":["squidward school"]}' -H 'Content-Type: application/json' 'http://0.0.0.0:45678/search'
 ```
 
 Where `hello world` is your query.
 
-The results should be a big chunk of JSON containing the matching apps. Or at least something close to matching. By default we're only indexing 1,000 apps from a list that's a few years old (since this is just an example) so don't be surprised if your search for a specific title doesn't come up.
+The results should be a big chunk of JSON containing the matching memes with captions and links to images. Or at least something close to matching. By default we're only indexing 1,000 memes. Also memes don't age well, so don't expect to find anything too new here!
 
 ## FAQ
 
 ### Why this dataset?
 
-It contains a lot of metadata, including (working) links to icons. I want to build a nice front-end to show off the search experience so graphical assets are vital. Plus stuff like ratings, descriptions, the works.
-
-### The download/purchase buttons don't do anything
-
-This is just a demo search engine. It has no functionality beyond that. 
+It contains a lot of metadata, including (working) links to images. I want to build a nice front-end to show off the search experience so graphical assets are vital. 
 
 ### How can I change basic settings?
 
-Edit `backend/appstore_config.py`
+Edit `text_search/backend_config.py`
