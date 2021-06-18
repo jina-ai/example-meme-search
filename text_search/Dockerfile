@@ -1,6 +1,7 @@
 FROM pytorch/pytorch:latest
 
 COPY . /workspace
+COPY ../requirements.txt /workspace
 WORKDIR /workspace
 
 RUN pip install -r requirements.txt
@@ -11,11 +12,11 @@ LABEL author="Alex C-G (alex.cg@jina.ai)"
 LABEL type="app"
 LABEL kind="example"
 LABEL avatar="None"
-LABEL description="Meme search example using Jina"
+LABEL description="Meme text search example using Jina"
 LABEL documentation="https://github.com/alexcg1/jina-meme-search-example"
 LABEL keywords="[NLP, memes, text, jina, example, search]"
 LABEL license="apache-2.0"
-LABEL name="jina-meme-search-example"
+LABEL name="jina-meme-text-search-example"
 LABEL platform="linux/amd64"
 LABEL update="None"
 LABEL url="https://github.com/alexcg1/jina-meme-search-example"
