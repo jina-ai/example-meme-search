@@ -1,0 +1,3 @@
+jina[http,transformers,torch]==2.0.0rc7.dev7
+pretty-errors==1.2.21
+streamlit==0.82.0
