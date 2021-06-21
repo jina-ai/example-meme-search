@@ -1,11 +1,13 @@
 FROM pytorch/pytorch:latest
 
+RUN apt-get install wget
+
 COPY . /workspace
 WORKDIR /workspace
 
-RUN pip install -r requirements.txt
+RUN get_data.sh
 
-WORKDIR text_search
+RUN pip install -r requirements.txt
 
 ENTRYPOINT ["python", "app.py"]
 
