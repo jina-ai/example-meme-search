@@ -6,6 +6,7 @@ from backend_config import (
     backend_workdir,
     backend_datafile,
     max_docs,
+    random_seed
 )
 from executors import MyTransformer, MyIndexer
 
@@ -32,6 +33,7 @@ def prep_json(input_file, max_docs=None, shuffle=True):
     if shuffle:
         import random
 
+        random.seed(random_seed)
         random.shuffle(memes)
 
     for meme in memes[:max_docs]:
