@@ -1,7 +1,6 @@
-import pretty_errors
 from jina import Flow, Document, DocumentArray
 from jina.parsers.helloworld import set_hw_chatbot_parser
-from backend_config import (
+from config import (
     backend_port,
     backend_workdir,
     backend_datafile,
