@@ -1,4 +1,5 @@
 data/
+workspace/
 
 ### Created by https://www.gitignore.io
 ### Python ###
@@ -149,4 +150,4 @@ Thumbs.db
 # profiling data
 .prof
 
-
+tags
