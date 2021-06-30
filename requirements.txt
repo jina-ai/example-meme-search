@@ -1,1 +1,2 @@
-jina[http,transformers,torch]==2.0.0rc7.dev7
+jina[http,transformers,torch]==2.0.0
+git+https://github.com/jina-ai/executor-transformer-torch-encoder.git
