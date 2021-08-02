@@ -11,7 +11,7 @@ from config import (
 )
 from helper import deal_with_workspace
 # fromrs import MyTransformer, MyIndexer
-from jinahub.text.encoders.transform_encoder import TransformerTorchEncoder
+from jinahub.encoder.transform_encoder import TransformerTorchEncoder
 from executors.disk_indexer import DiskIndexer
 
 try:
