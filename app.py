@@ -1,18 +1,9 @@
 from jina import Flow, Document, DocumentArray
+
 # from jina.parsers.helloworld import set_hw_chatbot_parser
 import click
-from config import (
-    port,
-    workdir,
-    datafile,
-    max_docs,
-    random_seed,
-    model
-)
+from config import port, workdir, datafile, max_docs, random_seed, model
 from helper import deal_with_workspace
-# fromrs import MyTransformer, MyIndexer
-# from jinahub.text.encoders.transform_encoder import TransformerTorchEncoder
-# from executors.disk_indexer import DiskIndexer
 
 try:
     __import__("pretty_errors")
@@ -24,16 +15,18 @@ flow = (
     .add(
         name="text_encoder",
         uses="jinahub+docker://TransformerTorchEncoder",
-        uses_with = {"pretrained_model_name_or_path": model, "max_length": 50},
+        uses_with={"max_length": 50},
+        # uses_with={"pretrained_model_name_or_path": model, "max_length": 50},
     )
     .add(
         uses="jinahub+docker://SimpleIndexer",
-        uses_with={"index_file_name": "index"},
+        uses_with={"index_file_name": "index", "default_top_k": 12},
         uses_metas={"workspace": "workspace"},
         name="text_indexer",
         volumes="./workspace:/workspace/workspace",
     )
 )
+
 
 def prep_docs(input_file, num_docs=None, shuffle=True):
     import json
