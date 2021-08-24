@@ -1,4 +1,4 @@
-FROM pytorch/pytorch:latest
+FROM jinaai/jina:2.0-py38
 
 ARG docs_to_index=100
 
