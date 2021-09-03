@@ -1,7 +1,7 @@
 import click
 import pretty_errors
 from jina import Flow, Document, DocumentArray
-from config import port, WORKSPACE_DIR, datafile, max_docs, random_seed
+from config import port, WORKSPACE_DIR, datafile, max_docs, random_seed, model
 from helper import deal_with_workspace
 import json
 
@@ -39,8 +39,8 @@ flow = (
     .add(
         name="meme_text_encoder",
         uses="jinahub+docker://TransformerTorchEncoder",
-        uses_with={"max_length": 50},
-        # uses_with={"pretrained_model_name_or_path": model, "max_length": 50},
+        # uses_with={"max_length": 50},
+        uses_with={"pretrained_model_name_or_path": model, "max_length": 50},
     )
     .add(
         name="meme_text_indexer",
