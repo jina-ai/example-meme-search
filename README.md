@@ -53,22 +53,13 @@ You'll need to do this after every reboot. Or you can [read the instructions](ht
 `app.py` indexes the dataset then opens up a REST gateway for you to search:
 
 ```shell
-cd text_search
+cd jina-meme-search-example
 python app.py
 ```
 
 ### Start the front end
 
-In another terminal:
-
-```sh
-cd jina-meme-search-example/
-source env/bin/activate
-cd frontend
-streamlit app.py
-```
-
-Then open http://localhost:8501 in your browser
+See our [front end repo](https://github.com/alexcg1/jina-meme-search-frontend)
 
 ### Search from the terminal
 
