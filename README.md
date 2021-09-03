@@ -2,6 +2,10 @@
 
 This is a simple example to show how to build an AI-powered search engine for searching memes using the [Jina](https://github.com/jina-ai/jina/) framework. It indexes and searches a subset of the [imgflip dataset](https://www.kaggle.com/abhishtagatya/imgflipscraped-memes-caption-dataset) from Kaggle.
 
+## Play with a live demo
+
+On [Jina's examples site](http://examples.jina.ai)
+
 ## Instructions
 
 ### Clone this repo
@@ -54,7 +58,8 @@ You'll need to do this after every reboot. Or you can [read the instructions](ht
 
 ```shell
 cd jina-meme-search-example
-python app.py
+python app.py -t index -n 100 # index 100 memes
+python app.py -t query_restful # open the query flow to start searching
 ```
 
 ### Start the front end
