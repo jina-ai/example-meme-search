@@ -8,6 +8,13 @@ On [Jina's examples site](http://examples.jina.ai)
 
 ## Instructions
 
+## Prerequisites
+
+- Running Mac or Linux (or [WSL2 on Windows](https://docs.microsoft.com/en-us/windows/wsl/install-win10)) with [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) installed
+- Python 3.7 or later (with [virtualenv](https://realpython.com/python-virtual-environments-a-primer/) installed)
+- A basic understanding of how to use a terminal
+- 8gb RAM or more (16gb recommended)
+
 ### Clone this repo
 
 ```shell
