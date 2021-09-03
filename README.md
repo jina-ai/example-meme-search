@@ -69,10 +69,10 @@ See our [front end repo](https://github.com/alexcg1/jina-meme-search-frontend)
 ### Search from the terminal
 
 ```shell
-curl --request POST -d '{"top_k":10,"mode":"search","data":["squidward school"]}' -H 'Content-Type: application/json' 'http://0.0.0.0:45678/search'
+curl --request POST -d '{"top_k":10,"mode":"search","data":["squidward school"]}' -H 'Content-Type: application/json' 'http://0.0.0.0:45679/search'
 ```
 
-Where `hello world` is your query.
+Where `squidward school` is your query.
 
 The results should be a big chunk of JSON containing the matching memes with captions and links to images. Or at least something close to matching. By default we're only indexing 1,000 memes. Also memes don't age well, so don't expect to find anything too new here!
 
