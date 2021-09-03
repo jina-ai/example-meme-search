@@ -2,7 +2,7 @@ from jina import Flow, Document, DocumentArray
 
 # from jina.parsers.helloworld import set_hw_chatbot_parser
 import click
-from config import port, workdir, datafile, max_docs, random_seed, model
+from config import port, WORKSPACE_DIR, datafile, max_docs, random_seed, model
 from helper import deal_with_workspace
 
 try:
@@ -13,17 +13,17 @@ except ImportError:
 flow = (
     Flow()
     .add(
-        name="text_encoder",
+        name="meme_text_encoder",
         uses="jinahub+docker://TransformerTorchEncoder",
         uses_with={"max_length": 50},
         # uses_with={"pretrained_model_name_or_path": model, "max_length": 50},
     )
     .add(
+        name="meme_text_indexer",
         uses="jinahub+docker://SimpleIndexer",
         uses_with={"index_file_name": "index", "default_top_k": 12},
-        uses_metas={"workspace": "workspace"},
-        name="text_indexer",
-        volumes="./workspace:/workspace/workspace",
+        uses_metas={"workspace": WORKSPACE_DIR},
+        volumes=f"./{WORKSPACE_DIR}:/workspace/workspace",
     )
 )
 
@@ -92,11 +92,11 @@ def query_restful():
 @click.option("--force", "-f", is_flag=True)
 def main(task: str, num_docs: int, force: bool):
     if task == "index":
-        deal_with_workspace(dir_name=workdir, should_exist=False, force_remove=force)
+        deal_with_workspace(dir_name=WORKSPACE_DIR, should_exist=False, force_remove=force)
         index(num_docs=num_docs)
 
     if task == "query_restful":
-        deal_with_workspace(dir_name=workdir, should_exist=True)
+        deal_with_workspace(dir_name=WORKSPACE_DIR, should_exist=True)
         query_restful()
 
 
