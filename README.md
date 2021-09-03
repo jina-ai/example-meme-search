@@ -2,6 +2,12 @@
 
 This is a simple example to show how to build an AI-powered search engine for searching memes using the [Jina](https://github.com/jina-ai/jina/) framework. It indexes and searches a subset of the [imgflip dataset](https://www.kaggle.com/abhishtagatya/imgflipscraped-memes-caption-dataset) from Kaggle.
 
+The app:
+
+- Reads meme captions, template names, and image filenames from a JSON file
+- Builds a searchable index by creating vector embeddings from the combined caption and template name
+- Opens up a RESTful interface to search that index using a text query
+
 ## Play with a live demo
 
 On [Jina's examples site](http://examples.jina.ai)
