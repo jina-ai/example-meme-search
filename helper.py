@@ -1,7 +1,9 @@
 import os
 import shutil
 import sys
-
+import json
+from jina import Document, DocumentArray
+from config import random_seed
 
 def deal_with_workspace(dir_name, should_exist: bool = False, force_remove: bool = False):
     if should_exist:

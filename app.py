@@ -1,13 +1,38 @@
-from jina import Flow, Document, DocumentArray
-
 import click
+import pretty_errors
+from jina import Flow, Document, DocumentArray
 from config import port, WORKSPACE_DIR, datafile, max_docs, random_seed
 from helper import deal_with_workspace
+import json
 
-try:
-    __import__("pretty_errors")
-except ImportError:
-    pass
+def prep_docs(input_file, num_docs=None, shuffle=True):
+
+    docs = DocumentArray()
+    memes = []
+    print(f"Processing {input_file}")
+    with open(input_file, "r") as file:
+        raw_json = json.loads(file.read())
+
+    for template in raw_json:
+        for meme in template["generated_memes"]:
+            meme["template"] = template["name"]
+        memes.extend(template["generated_memes"])
+
+    if shuffle:
+        import random
+
+        random.seed(random_seed)
+        random.shuffle(memes)
+
+    for meme in memes[:num_docs]:
+        doctext = f"{meme['template']} - {meme['caption_text']}"
+        doc = Document(text=doctext)
+        doc.tags = meme
+        doc.tags["uri_absolute"] = "http" + doc.tags["image_url"]
+        docs.extend([doc])
+
+    return docs
+
 
 flow = (
     Flow()
@@ -21,7 +46,7 @@ flow = (
         name="meme_text_indexer",
         uses="jinahub+docker://SimpleIndexer",
         uses_with={"index_file_name": "index", "default_top_k": 12},
-        uses_metas={"workspace": WORKSPACE_DIR},
+        # uses_metas={"workspace": WORKSPACE_DIR},
         volumes=f"./{WORKSPACE_DIR}:/workspace/workspace",
     )
 )
@@ -91,7 +116,9 @@ def query_restful():
 @click.option("--force", "-f", is_flag=True)
 def main(task: str, num_docs: int, force: bool):
     if task == "index":
-        deal_with_workspace(dir_name=WORKSPACE_DIR, should_exist=False, force_remove=force)
+        deal_with_workspace(
+            dir_name=WORKSPACE_DIR, should_exist=False, force_remove=force
+        )
         index(num_docs=num_docs)
 
     if task == "query_restful":
