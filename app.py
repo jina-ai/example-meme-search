@@ -1,8 +1,7 @@
 from jina import Flow, Document, DocumentArray
 
-# from jina.parsers.helloworld import set_hw_chatbot_parser
 import click
-from config import port, WORKSPACE_DIR, datafile, max_docs, random_seed, model
+from config import port, WORKSPACE_DIR, datafile, max_docs, random_seed
 from helper import deal_with_workspace
 
 try:
