@@ -5,6 +5,7 @@ from config import port, WORKSPACE_DIR, datafile, max_docs, random_seed, model
 from helper import deal_with_workspace
 import json
 
+
 def prep_docs(input_file, num_docs=None, shuffle=True):
 
     docs = DocumentArray()
@@ -38,48 +39,19 @@ flow = (
     Flow()
     .add(
         name="meme_text_encoder",
-        uses="jinahub+docker://TransformerTorchEncoder",
-        # uses_with={"max_length": 50},
-        uses_with={"pretrained_model_name_or_path": model, "max_length": 50},
+        uses="jinahub+docker://SpacyTextEncoder",
+        uses_with={"model_name": "en_core_web_md"}
+        # uses="jinahub+docker://TransformerTorchEncoder",
+        # uses_with={"pretrained_model_name_or_path": model},
+        # uses_with={"pretrained_model_name_or_path": model, "max_length": 50},
     )
     .add(
         name="meme_text_indexer",
         uses="jinahub+docker://SimpleIndexer",
         uses_with={"index_file_name": "index", "default_top_k": 12},
-        # uses_metas={"workspace": WORKSPACE_DIR},
         volumes=f"./{WORKSPACE_DIR}:/workspace/workspace",
     )
 )
-
-
-def prep_docs(input_file, num_docs=None, shuffle=True):
-    import json
-
-    docs = DocumentArray()
-    memes = []
-    print(f"Processing {input_file}")
-    with open(input_file, "r") as file:
-        raw_json = json.loads(file.read())
-
-    for template in raw_json:
-        for meme in template["generated_memes"]:
-            meme["template"] = template["name"]
-        memes.extend(template["generated_memes"])
-
-    if shuffle:
-        import random
-
-        random.seed(random_seed)
-        random.shuffle(memes)
-
-    for meme in memes[:num_docs]:
-        doctext = f"{meme['template']} - {meme['caption_text']}"
-        doc = Document(text=doctext)
-        doc.tags = meme
-        doc.tags["uri_absolute"] = "http" + doc.tags["image_url"]
-        docs.extend([doc])
-
-    return docs
 
 
 def index(num_docs: int = max_docs):
@@ -88,11 +60,11 @@ def index(num_docs: int = max_docs):
     :param num_docs: maximum number of Documents to index
     """
     with flow:
-        flow.post(
-            on="/index",
+        flow.index(
             inputs=prep_docs(input_file=datafile, num_docs=num_docs),
             request_size=64,
             read_mode="r",
+            show_progress=True,
         )
 
 
