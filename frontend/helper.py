@@ -21,29 +21,17 @@ class UI:
         </div>
     """
 
-    text_block = """
+    about_block = """
 
     ### About
 
-    This is an example meme search engine using the [Jina neural search framework](https://github.com/jina-ai/jina/).
+    This is a meme search engine using [Jina's neural search framework](https://github.com/jina-ai/jina/).
 
-    **Note: click the search button instead of hitting Enter. We're working on fixing this!**
-
-    - Backend: [Jina](https://github.com/jina-ai/jina/)
-    - Frontend: [Streamlit](https://www.streamlit.io/)
-    - Dataset: [ImgFlip memes](https://www.kaggle.com/abhishtagatya/imgflipscraped-memes-caption-dataset)
-
+    - [Live demo](https://examples.jina.ai/memes)
+    - [Play with it in a notebook](https://colab.research.google.com/github/jina-ai/workshops/blob/main/memes/meme_search.ipynb) (text-only)
+    - [Repo](https://github.com/alexcg1/jina-meme-search)
+    - [Dataset](https://www.kaggle.com/abhishtagatya/imgflipscraped-memes-caption-dataset)
     """
-
-    image_repo_block = """
-    ### Repos
-
-    - [Image search backend](https://github.com/alexcg1/simple-jina-examples/tree/main/image_search)
-    - [Frontend](https://github.com/alexcg1/jina-meme-search-frontend)
-
-    ---
-
-    <a href="https://github.com/jina-ai/jina/"><img src="https://github.com/alexcg1/jina-app-store-example/blob/a8f64332c6a5b3ae42df07d4bd615ff1b7ece4d9/frontend/powered_by_jina.png?raw=true" width=256></a>"""
 
     css = f"""
 <style>

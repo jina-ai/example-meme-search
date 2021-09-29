@@ -15,9 +15,7 @@ st.markdown(
 )
 st.write('<style>div.row-widget.stRadio > div{flex-direction:row; margin-left:auto; margin-right: auto; align: center}</style>', unsafe_allow_html=True)
 # Sidebar
-st.sidebar.header("Media type")
-st.sidebar.markdown(UI.text_block, unsafe_allow_html=True)
-st.sidebar.markdown(UI.image_repo_block, unsafe_allow_html=True)
+st.sidebar.markdown(UI.about_block, unsafe_allow_html=True)
 
 st.markdown(UI.repo_banner, unsafe_allow_html=True)
 
