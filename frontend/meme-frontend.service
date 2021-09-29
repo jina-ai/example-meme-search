@@ -1,0 +1,11 @@
+[Unit]
+Description=Frontend for Jina meme search
+
+[Service]
+User=ubuntu
+WorkingDirectory=/home/ubuntu/alexcg/meme-search/frontend
+ExecStart=/bin/bash -c 'cd /home/ubuntu/alexcg/meme-search/frontend && source env/bin/activate && streamlit run app.py'
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
