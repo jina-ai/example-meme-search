@@ -1,5 +1,4 @@
 import click
-import pretty_errors
 from jina import Flow, Document, DocumentArray
 from config import port, WORKSPACE_DIR, datafile, max_docs, random_seed, model
 from helper import deal_with_workspace
