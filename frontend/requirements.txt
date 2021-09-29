@@ -1,0 +1,2 @@
+streamlit==0.87.0
+python-magic==0.4.24
