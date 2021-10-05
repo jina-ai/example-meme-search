@@ -1,6 +1,5 @@
 import pretty_errors
 from jina import Flow, DocumentArray
-# from jina import Flow, DocumentArray, Document
 from jina.types.document.generators import from_files
 from executors import UriToBlob
 import os
@@ -14,18 +13,14 @@ WORKSPACE_DIR = "workspace"
 flow = (
     Flow()
     .add(uses=UriToBlob, name="processor") # Embed image in doc, not just filename
-    # .add(uses="jinahub+docker://ImageUriToBlob", name="processor") # Embed image in doc, not just filename
     .add(
         uses="jinahub+docker://ImageNormalizer",
         name="image_normalizer",
         uses_with={"target_size": 96},
     )
     .add(
-        # uses="jinahub+docker://BigTransferEncoder",
-        # uses_with={"model_name": "Imagenet1k/R50x1", "model_path": "model"},
         uses="jinahub+docker://CLIPImageEncoder",
         uses_metas={"workspace": WORKSPACE_DIR},
-        # name="bit_image_encoder",
         volumes="./data:/encoder/data",
     )
     .add(
