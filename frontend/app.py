@@ -33,23 +33,9 @@ if media_type == "Image":
             if not query:
                 st.markdown("Please enter a query")
             else:
-                matches = search_by_file(image_endpoint, top_k, "/tmp/query.png")
+                matches = search_by_file(image_endpoint, "/tmp/query.png")
 
-    # Sample image list
-    # elif media_type == "Text":
-        # st.header("...or search from an existing meme")
-        # sample_files = []
-        # for filename in os.listdir("./samples"):
-            # sample_files.append(filename)
-        # sample_cells = st.columns(len(sample_files))
-
-        # for cell, filename in zip(sample_cells, sample_files):
-            # meme_name = filename.split(".")[0]
-            # cell.image(f"samples/{filename}", width=128)
-            # if cell.button(f"{meme_name}", key=meme_name):
-                # matches = search_by_file(image_endpoint, top_k, f"samples/{filename}")
 elif media_type == "Text":
-    # st.subheader("Search with a meme subject and/or caption...")
     query = st.text_input("", key="text_search_box")
     search_fn = search_by_text
     if st.button("Search", key="text_search"):
@@ -97,10 +83,11 @@ cell4, cell5, cell6 = st.columns(3)
 cell7, cell8, cell9 = st.columns(3)
 all_cells = [cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9]
 
+st.json(matches)
 for cell, match in zip(all_cells, matches):
     if media_type == "Text":
         cell.image("http:" + match["tags"]["image_url"])
     else:
-        # cell.image(match["tags"]["uri_absolute"], use_column_width="auto")
+        cell.image(match["tags"]["uri_absolute"], use_column_width="auto")
         cell.image(match["tags"]["uri"], use_column_width="auto")
 

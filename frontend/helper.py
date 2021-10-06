@@ -74,26 +74,17 @@ def search_by_text(query: str, endpoint: str, top_k: int) -> dict:
     return matches
 
 
-def search_by_file(endpoint, top_k, filename="query.png"):
+def search_by_file(endpoint, filename="query.png"):
     """search_by_file.
 
     :param endpoint:
-    :param top_k:
     :param filename:
     """
     filetype = magic.from_file(filename, mime=True)
     filename = os.path.abspath(filename)
 
+    data = '{"data": [{"uri":"' + filename + '", "mime_type": "image/jpeg"}]}'
 
-    data = (
-        '{"parameters": {"top_k": '
-        + str(top_k)
-        + '}, "mode": "search",  "data": [{"uri": "'
-        + filename
-        + '", "mime_type": "'
-        + filetype
-        + '"}]}'
-    )
     response = requests.post(endpoint, headers=headers, data=data)
     content = response.json()
     matches = content["data"]["docs"][0]["matches"]
