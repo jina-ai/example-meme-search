@@ -2,7 +2,6 @@ import click
 from jina import Flow
 from config import port, WORKSPACE_DIR, datafile, max_docs, model
 from helper import deal_with_workspace, prep_docs
-from executors import GetIndexSize
 
 
 flow = (
