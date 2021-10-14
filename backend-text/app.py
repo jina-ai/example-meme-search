@@ -1,53 +1,32 @@
 import click
-from jina import Flow, Document, DocumentArray
-from config import port, WORKSPACE_DIR, datafile, max_docs, random_seed, model
-from helper import deal_with_workspace
-import json
-
-
-def prep_docs(input_file, num_docs=None, shuffle=True):
-
-    docs = DocumentArray()
-    memes = []
-    print(f"Processing {input_file}")
-    with open(input_file, "r") as file:
-        raw_json = json.loads(file.read())
-
-    for template in raw_json:
-        for meme in template["generated_memes"]:
-            meme["template"] = template["name"]
-        memes.extend(template["generated_memes"])
-
-    if shuffle:
-        import random
-
-        random.seed(random_seed)
-        random.shuffle(memes)
-
-    for meme in memes[:num_docs]:
-        doctext = f"{meme['template']} - {meme['caption_text']}"
-        doc = Document(text=doctext)
-        doc.tags = meme
-        doc.tags["uri_absolute"] = "http" + doc.tags["image_url"]
-        docs.extend([doc])
-
-    return docs
+from jina import Flow
+from config import port, WORKSPACE_DIR, datafile, max_docs, model
+from helper import deal_with_workspace, prep_docs
+from executors import GetIndexSize
 
 
 flow = (
     Flow()
+    # .add(
+        # name="remove_duplicates",
+        # uses="jinahub+docker://DocCache",
+        # uses_with={"fields": ["text"]},
+    # )
+    # .add(
+        # name="remove_dead_urls",
+        # uses="jinahub+docker://RemoveDeadURLs",
+        # # uses="jinahub://RemoveDeadURLs",
+        # uses_with={"tag": "uri_absolute"},
+        # # install_requirements=True
+    # )
     .add(
         name="meme_text_encoder",
         uses="jinahub+docker://SpacyTextEncoder",
-        uses_with={"model_name": "en_core_web_md"}
-        # uses="jinahub+docker://TransformerTorchEncoder",
-        # uses_with={"pretrained_model_name_or_path": model},
-        # uses_with={"pretrained_model_name_or_path": model, "max_length": 50},
+        uses_with={"model_name": model},
     )
     .add(
         name="meme_text_indexer",
         uses="jinahub+docker://SimpleIndexer",
-        uses_with={"index_file_name": "index", "default_top_k": 12},
         volumes=f"./{WORKSPACE_DIR}:/workspace/workspace",
     )
 )
