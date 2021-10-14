@@ -3,7 +3,7 @@ Description=Text backend for Jina meme search
 
 [Service]
 User=ubuntu
-WorkingDirectory=/home/ubuntu/alexcg/meme-search/backend-text
+WorkingDirectory=/home/ubuntu/alexcg/jina-meme-search/backend-text
 ExecStart=/bin/bash -c 'cd /home/ubuntu/alexcg/meme-search/backend-text && source env/bin/activate && python app.py -t query_restful'
 Restart=always
 
