@@ -83,7 +83,6 @@ cell4, cell5, cell6 = st.columns(3)
 cell7, cell8, cell9 = st.columns(3)
 all_cells = [cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9]
 
-st.json(matches)
 for cell, match in zip(all_cells, matches):
     if media_type == "Text":
         cell.image("http:" + match["tags"]["image_url"])

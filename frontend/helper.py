@@ -64,7 +64,7 @@ def search_by_text(query: str, endpoint: str, top_k: int) -> dict:
     :type top_k: int
     :rtype: dict
     """
-    data = '{"top_k":' + str(top_k) + ',"mode":"search","data":["' + query + '"]}'
+    data = '{"data":["' + query + '"]}'
 
     response = requests.post(endpoint, headers=headers, data=data)
     content = response.json()
