@@ -31,6 +31,7 @@ class UI:
     - [Play with it in a notebook](https://colab.research.google.com/github/jina-ai/workshops/blob/main/memes/meme_search.ipynb) (text-only)
     - [Repo](https://github.com/alexcg1/jina-meme-search)
     - [Dataset](https://www.kaggle.com/abhishtagatya/imgflipscraped-memes-caption-dataset)
+    - [This meme search sucks and I hate it](https://github.com/alexcg1/jina-meme-search/blob/main/your-meme-search-sucks.md)
     """
 
     css = f"""
