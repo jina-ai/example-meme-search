@@ -1,6 +1,6 @@
 # Your Stupid Meme Search Sucks and So Do You!
 
-## So, why I can't I see <this meme>?
+## So, why I can't I see [this meme]?
 
 A couple of answers to that question!
 
