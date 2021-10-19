@@ -18,7 +18,7 @@ flow = (
         name="image_normalizer",
         uses="jinahub+docker://ImageNormalizer",
         uses_with={"target_size": IMAGE_SIZE},
-        volumes="./data:/normalizer/data",
+        volumes="./data:/workspace/data",
         force=True
     )
     .add(
@@ -30,11 +30,10 @@ flow = (
     )
     .add(
         name="meme_image_indexer",
-        uses="jinahub+docker://SimpleIndexer",
+        uses="jinahub+docker://SimpleIndexer/old",
         uses_with={"index_file_name": "index"},
         uses_metas={"workspace": WORKSPACE_DIR},
         volumes=f"./{WORKSPACE_DIR}:/workspace/workspace",
-        force=True
     )
 )
 
