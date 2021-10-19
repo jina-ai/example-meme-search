@@ -1,12 +1,12 @@
-import pretty_errors
+import sys
+import os
 from jina import Flow, DocumentArray
-# from jina import Flow, DocumentArray, Document
 from jina.types.document.generators import from_files
 from executors import UriToBlob
-import os
-import sys
 
-NUM_DOCS = 10_000
+NUM_DOCS = 10
+IMAGE_SIZE = 48 # Resize to 48 x 48 for faster processing
+REQUEST_SIZE = 16 # Lower = lower memory usage
 FORMATS = ["jpg", "png", "jpeg"]
 DATA_DIR = "data"
 WORKSPACE_DIR = "workspace"
@@ -14,26 +14,24 @@ WORKSPACE_DIR = "workspace"
 flow = (
     Flow()
     .add(uses=UriToBlob, name="processor") # Embed image in doc, not just filename
-    # .add(uses="jinahub+docker://ImageUriToBlob", name="processor") # Embed image in doc, not just filename
     .add(
-        uses="jinahub+docker://ImageNormalizer",
         name="image_normalizer",
-        uses_with={"target_size": 96},
+        uses="jinahub+docker://ImageNormalizer",
+        uses_with={"target_size": IMAGE_SIZE},
     )
     .add(
-        # uses="jinahub+docker://BigTransferEncoder",
-        # uses_with={"model_name": "Imagenet1k/R50x1", "model_path": "model"},
+        name="meme_image_encoder",
         uses="jinahub+docker://CLIPImageEncoder",
         uses_metas={"workspace": WORKSPACE_DIR},
-        # name="bit_image_encoder",
         volumes="./data:/encoder/data",
     )
     .add(
+        name="meme_image_indexer",
         uses="jinahub+docker://SimpleIndexer",
         uses_with={"index_file_name": "index"},
         uses_metas={"workspace": WORKSPACE_DIR},
-        name="meme_image_simple_indexer",
         volumes=f"./{WORKSPACE_DIR}:/workspace/workspace",
+        force=True
     )
 )
 
@@ -54,7 +52,7 @@ def index():
     docs = generate_docs(DATA_DIR, NUM_DOCS)
 
     with flow:
-        flow.index(inputs=docs, show_progress=True)
+        flow.index(inputs=docs, show_progress=True, request_size=REQUEST_SIZE)
 
 
 def query_restful():
