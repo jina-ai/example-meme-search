@@ -13,17 +13,20 @@ WORKSPACE_DIR = "workspace"
 
 flow = (
     Flow()
-    .add(uses=UriToBlob, name="processor") # Embed image in doc, not just filename
+    # .add(uses=UriToBlob, name="processor") # Embed image in doc, not just filename
     .add(
         name="image_normalizer",
         uses="jinahub+docker://ImageNormalizer",
         uses_with={"target_size": IMAGE_SIZE},
+        volumes="./data:/normalizer/data",
+        force=True
     )
     .add(
         name="meme_image_encoder",
         uses="jinahub+docker://CLIPImageEncoder",
         uses_metas={"workspace": WORKSPACE_DIR},
         volumes="./data:/encoder/data",
+        force=True
     )
     .add(
         name="meme_image_indexer",
