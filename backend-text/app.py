@@ -20,12 +20,12 @@ flow = (
     # )
     .add(
         name="meme_text_encoder",
-        uses="jinahub+docker://SpacyTextEncoder",
+        uses="jinahub+docker://SpacyTextEncoder/v0.1",
         uses_with={"model_name": model},
     )
     .add(
         name="meme_text_indexer",
-        uses="jinahub+docker://SimpleIndexer",
+        uses="jinahub+docker://SimpleIndexer/v0.7",
         volumes=f"./{WORKSPACE_DIR}:/workspace/workspace",
     )
 )
