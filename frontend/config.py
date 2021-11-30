@@ -1,6 +1,6 @@
 # Text search
 text_endpoint = "http://examples.jina.ai:45678/search"
-text_endpoint = "http://0.0.0.0:45679/search"
+# text_endpoint = "http://0.0.0.0:45679/search"
 
 # Image search
 image_endpoint = "http://examples.jina.ai:12345/search"

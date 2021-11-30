@@ -1,8 +1,35 @@
 import requests
 import magic
 import os
+from jina import Client, Document
+from jina.types.request import Response
+from config import port
 
-repo_banner_file = os.path.abspath("./eah.svg")
+
+def search_by_text(query: str, endpoint: str, top_k: int) -> dict:
+    def print_matches(
+        resp: Response,
+    ):  # the callback function invoked when task is done
+        for idx, d in enumerate(resp.docs[0].matches[:3]):  # print top-3 matches
+            print(f'[{idx}]{d.scores["euclidean"].value:2f}: "{d.text}"')
+
+    c = Client(protocol="http", port=port)  # connect to localhost:12345
+    c.post("/search", Document(text="request(on=something)"), on_done=print_matches)
+
+    data = '{"parameters": {"top_k":' + str(top_k) + '}, "data":["' + query + '"]}'
+    # data = '{"data":["' + query + '"]}'
+    # data = '{"parameters": {"top_k": 12}, "data":["aliens and monsters"]}'
+
+    response = requests.post(endpoint, headers=headers, data=data)
+    content = response.json()
+    from pprint import pprint
+
+    pprint(response)
+
+    matches = content["data"]["docs"][0]["matches"]
+
+    return matches
+
 
 class UI:
 
@@ -52,27 +79,6 @@ class UI:
 
 
 headers = {"Content-Type": "application/json"}
-
-
-def search_by_text(query: str, endpoint: str, top_k: int) -> dict:
-    """search_by_text.
-
-    :param query:
-    :type query: str
-    :param endpoint:
-    :type endpoint: str
-    :param top_k:
-    :type top_k: int
-    :rtype: dict
-    """
-    data = '{"data":["' + query + '"]}'
-
-    response = requests.post(endpoint, headers=headers, data=data)
-    content = response.json()
-
-    matches = content["data"]["docs"][0]["matches"]
-
-    return matches
 
 
 def search_by_file(endpoint, filename="query.png"):

@@ -63,5 +63,7 @@ for cell, match in zip(all_cells, matches):
     if media_type == "Text":
         cell.image("http:" + match["tags"]["image_url"])
     else:
-        cell.image(match["tags"]["uri_absolute"], use_column_width="auto")
-        cell.image(match["tags"]["uri"], use_column_width="auto")
+        # st.json(matches)
+        cell.image(match["uri"])
+        # cell.image(match["tags"]["uri_absolute"], use_column_width="auto")
+        # cell.image(match["tags"]["uri"], use_column_width="auto")
