@@ -1,50 +1,28 @@
 import sys
 import os
-from jina import Flow, DocumentArray
-from jina.types.document.generators import from_files
-from executors import UriToBlob
-
-NUM_DOCS = 10
-IMAGE_SIZE = 48 # Resize to 48 x 48 for faster processing
-REQUEST_SIZE = 16 # Lower = lower memory usage
-FORMATS = ["jpg", "png", "jpeg"]
-DATA_DIR = "data"
-WORKSPACE_DIR = "workspace"
+from jina import Flow, Document
+from config import WORKSPACE_DIR, NUM_DOCS, DATA_DIR, REQUEST_SIZE, PORT
+from executors import ImageNormalizer
+from helper import print_result, generate_docs
 
 flow = (
     Flow()
-    # .add(uses=UriToBlob, name="processor") # Embed image in doc, not just filename
-    .add(
-        name="image_normalizer",
-        uses="jinahub+docker://ImageNormalizer",
-        uses_with={"target_size": IMAGE_SIZE},
-        volumes="./data:/workspace/data",
-        force=True
-    )
+    .add(name="image_normalizer", uses=ImageNormalizer)
     .add(
         name="meme_image_encoder",
         uses="jinahub+docker://CLIPImageEncoder",
         uses_metas={"workspace": WORKSPACE_DIR},
         volumes="./data:/encoder/data",
-        force=True
     )
     .add(
         name="meme_image_indexer",
-        uses="jinahub+docker://SimpleIndexer/old",
+        uses="jinahub+docker://SimpleIndexer",
         uses_with={"index_file_name": "index"},
         uses_metas={"workspace": WORKSPACE_DIR},
         volumes=f"./{WORKSPACE_DIR}:/workspace/workspace",
     )
 )
 
-def generate_docs(directory, num_docs=NUM_DOCS, formats=FORMATS):
-    docs = DocumentArray()
-    for format in formats:
-        docarray = DocumentArray(from_files(f"{directory}/**/*.{format}", size=num_docs))
-        docs.extend(docarray)
-
-    return docs[:num_docs]
-        
 
 def index():
     if os.path.exists(WORKSPACE_DIR):
@@ -59,10 +37,23 @@ def index():
 
 def query_restful():
     flow.protocol = "http"
-    flow.port_expose = 12345
+    flow.port_expose = PORT
 
     with flow:
         flow.block()
+
+
+def query_grpc():
+    filename = sys.argv[2]
+    query = Document(uri=filename)
+
+    with flow:
+        flow.search(
+            query,
+            on_done=print_result,
+            parameters={"top_k": 5},
+            show_progress=True,
+        )
 
 
 if len(sys.argv) < 1:
@@ -71,5 +62,7 @@ if sys.argv[1] == "index":
     index()
 elif sys.argv[1] == "query_restful":
     query_restful()
+elif sys.argv[1] == "query_grpc":
+    query_grpc()
 else:
-    print("Supported arguments: index, query_restful")
+    print("Supported arguments: index, query_restful, query_grpc")

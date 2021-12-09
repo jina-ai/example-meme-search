@@ -1,31 +1,19 @@
 import click
 from jina import Flow
-from config import port, WORKSPACE_DIR, datafile, max_docs, model
+from config import port, WORKSPACE_DIR, datafile, max_docs, model, spacy_executor_ver, simpleindexer_ver
 from helper import deal_with_workspace, prep_docs
 
 
 flow = (
     Flow()
-    # .add(
-        # name="remove_duplicates",
-        # uses="jinahub+docker://DocCache",
-        # uses_with={"fields": ["text"]},
-    # )
-    # .add(
-        # name="remove_dead_urls",
-        # uses="jinahub+docker://RemoveDeadURLs",
-        # # uses="jinahub://RemoveDeadURLs",
-        # uses_with={"tag": "uri_absolute"},
-        # # install_requirements=True
-    # )
     .add(
         name="meme_text_encoder",
-        uses="jinahub+docker://SpacyTextEncoder/v0.1",
+        uses=f"jinahub+docker://SpacyTextEncoder/{spacy_executor_ver}",
         uses_with={"model_name": model},
     )
     .add(
         name="meme_text_indexer",
-        uses="jinahub+docker://SimpleIndexer/v0.7",
+        uses=f"jinahub+docker://SimpleIndexer/{simpleindexer_ver}",
         volumes=f"./{WORKSPACE_DIR}:/workspace/workspace",
     )
 )
@@ -33,7 +21,7 @@ flow = (
 
 def index(num_docs: int = max_docs):
     """
-    Build an index for your search
+    Build index for your search
     :param num_docs: maximum number of Documents to index
     """
     with flow:
@@ -47,7 +35,7 @@ def index(num_docs: int = max_docs):
 
 def query_restful():
     """
-    Query your index
+    Query index
     """
     with flow:
         flow.protocol = "http"
@@ -69,10 +57,11 @@ def main(task: str, num_docs: int, force: bool):
             dir_name=WORKSPACE_DIR, should_exist=False, force_remove=force
         )
         index(num_docs=num_docs)
-
-    if task == "query_restful":
+    elif task == "query_restful":
         deal_with_workspace(dir_name=WORKSPACE_DIR, should_exist=True)
         query_restful()
+    else:
+        print("Please add '-t index' or '-t query_restful' to your command")
 
 
 if __name__ == "__main__":
