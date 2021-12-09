@@ -53,6 +53,7 @@ elif media_type == "Text":
         if st.button(text):
             matches = search_by_text(text, text_endpoint, top_k)
 
+
 # Results area
 cell1, cell2, cell3 = st.columns(3)
 cell4, cell5, cell6 = st.columns(3)
@@ -63,5 +64,4 @@ for cell, match in zip(all_cells, matches):
     if media_type == "Text":
         cell.image("http:" + match["tags"]["image_url"])
     else:
-        cell.image(match["tags"]["uri_absolute"], use_column_width="auto")
-        cell.image(match["tags"]["uri"], use_column_width="auto")
+        cell.image(match["uri"], use_column_width="auto")

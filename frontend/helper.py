@@ -81,10 +81,9 @@ def search_by_file(endpoint, filename="query.png"):
     :param endpoint:
     :param filename:
     """
-    filetype = magic.from_file(filename, mime=True)
     filename = os.path.abspath(filename)
 
-    data = '{"data": [{"uri":"' + filename + '", "mime_type": "image/jpeg"}]}'
+    data = '{"data": [{"uri":"' + filename + '"}]}'
 
     response = requests.post(endpoint, headers=headers, data=data)
     content = response.json()
