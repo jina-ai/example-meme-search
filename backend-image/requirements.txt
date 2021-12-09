@@ -1,2 +1,2 @@
-jina==2.1.8
+jina==2.5.5
 Pillow-SIMD==7.0.0.post3
