@@ -70,9 +70,13 @@ def search_by_text(query: str, endpoint: str, top_k: int) -> dict:
     response = requests.post(endpoint, headers=headers, data=data)
     content = response.json()
 
-    matches = content["data"]["docs"][0]["matches"]
+    try:
+        matches = content["data"]["docs"][0]["matches"]
 
-    return matches
+        return matches
+    except:
+        print("Something's gone wrong. Printing raw response on terminal")
+        print(content)
 
 
 def search_by_file(endpoint, filename="query.png"):
