@@ -8,12 +8,12 @@ flow = (
     Flow()
     .add(
         name="meme_text_encoder",
-        uses=f"jinahub+docker://SpacyTextEncoder/v0.1",
+        uses=f"jinahub+docker://SpacyTextEncoder/v0.3",
         uses_with={"model_name": model},
     )
     .add(
         name="meme_text_indexer",
-        uses=f"jinahub+docker://SimpleIndexer/v0.7",
+        uses=f"jinahub+docker://SimpleIndexer/v0.11",
         volumes=f"./{WORKSPACE_DIR}:/workspace/workspace",
     )
 )
