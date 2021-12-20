@@ -1,7 +1,7 @@
 import streamlit as st
 import random
 import os
-from config import image_endpoint, text_endpoint, top_k, images_path
+from config import image_endpoint, text_endpoint, top_k, images_path, DEBUG
 from helper import search_by_file, search_by_text, UI, create_temp_file
 
 endpoint = image_endpoint
@@ -20,6 +20,11 @@ st.write(
 
 # Sidebar
 st.sidebar.markdown(UI.about_block, unsafe_allow_html=True)
+
+if DEBUG:
+    with st.sidebar.expander("Debug"):
+        text_endpoint = st.text_input(label="Text endpoint", value=text_endpoint)
+        image_endpoint = st.text_input(label="Image endpoint", value=image_endpoint)
 
 st.markdown(UI.repo_banner, unsafe_allow_html=True)
 
@@ -42,7 +47,7 @@ elif media_type == "Text":
     query = st.text_input("", key="text_search_box")
     search_fn = search_by_text
     if st.button("Search", key="text_search"):
-        matches = search_by_text(query, text_endpoint, top_k)
+        matches = search_by_text(query, text_endpoint)
     st.subheader("...or search from a sample")
     sample_texts = [
         "squidward school",
@@ -51,7 +56,7 @@ elif media_type == "Text":
     ]
     for text in sample_texts:
         if st.button(text):
-            matches = search_by_text(text, text_endpoint, top_k)
+            matches = search_by_text(text, text_endpoint)
 
 
 # Results area
@@ -65,3 +70,6 @@ for cell, match in zip(all_cells, matches):
         cell.image("http:" + match["tags"]["image_url"])
     else:
         cell.image(match["uri"], use_column_width="auto")
+
+if DEBUG:
+    st.json(matches)

@@ -10,3 +10,4 @@ image_size = 128 # How big to render images
 
 # General
 top_k = 10
+DEBUG = False

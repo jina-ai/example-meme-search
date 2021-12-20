@@ -54,7 +54,7 @@ class UI:
 headers = {"Content-Type": "application/json"}
 
 
-def search_by_text(query: str, endpoint: str, top_k: int) -> dict:
+def search_by_text(query: str, endpoint: str):
     """search_by_text.
 
     :param query:
