@@ -1,6 +1,6 @@
 import click
 from jina import Flow
-from config import port, WORKSPACE_DIR, datafile, max_docs, model, spacy_executor_ver, simpleindexer_ver
+from config import port, WORKSPACE_DIR, datafile, max_docs, model
 from helper import deal_with_workspace, prep_docs
 
 
@@ -8,12 +8,12 @@ flow = (
     Flow()
     .add(
         name="meme_text_encoder",
-        uses=f"jinahub+docker://SpacyTextEncoder/{spacy_executor_ver}",
+        uses=f"jinahub+docker://SpacyTextEncoder/v0.1",
         uses_with={"model_name": model},
     )
     .add(
         name="meme_text_indexer",
-        uses=f"jinahub+docker://SimpleIndexer/{simpleindexer_ver}",
+        uses=f"jinahub+docker://SimpleIndexer/v0.7",
         volumes=f"./{WORKSPACE_DIR}:/workspace/workspace",
     )
 )
