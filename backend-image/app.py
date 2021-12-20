@@ -10,13 +10,13 @@ flow = (
     .add(name="image_normalizer", uses=ImageNormalizer)
     .add(
         name="meme_image_encoder",
-        uses="jinahub+docker://CLIPImageEncoder",
+        uses="jinahub+docker://CLIPImageEncoder/v0.3",
         uses_metas={"workspace": WORKSPACE_DIR},
         volumes="./data:/encoder/data",
     )
     .add(
         name="meme_image_indexer",
-        uses="jinahub+docker://SimpleIndexer",
+        uses="jinahub+docker://SimpleIndexer/v0.11",
         uses_with={"index_file_name": "index"},
         uses_metas={"workspace": WORKSPACE_DIR},
         volumes=f"./{WORKSPACE_DIR}:/workspace/workspace",

@@ -1,6 +1,5 @@
 from jina import Document, DocumentArray
 from config import NUM_DOCS, FORMATS
-# from jina.types.document.generators import from_files
 
 
 def generate_docs(directory, num_docs=NUM_DOCS, formats=FORMATS):
