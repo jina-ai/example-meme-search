@@ -36,10 +36,10 @@ def index():
 
 
 def query_restful():
-    flow.protocol = "http"
-    flow.port_expose = PORT
 
     with flow:
+        flow.protocol = "http"
+        flow.port_expose = PORT
         flow.block()
 
 
