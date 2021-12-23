@@ -1,7 +1,7 @@
 import streamlit as st
 import random
 import os
-from config import image_endpoint, text_endpoint, top_k, images_path, DEBUG
+from config import IMAGE_PORT, IMAGE_SERVER, image_endpoint, text_endpoint, top_k, images_path, DEBUG, TEXT_PORT, TEXT_SERVER
 from helper import search_by_file, search_by_text, UI, create_temp_file
 
 endpoint = image_endpoint
@@ -41,13 +41,14 @@ if media_type == "Image":
             if not query:
                 st.markdown("Please enter a query")
             else:
-                matches = search_by_file(image_endpoint, "/tmp/query.png")
+                # matches = search_by_file(image_endpoint, "/tmp/query.png")
+                matches = search_by_file(filename="tmp/query.png", server=IMAGE_SERVER, port=IMAGE_PORT)
 
 elif media_type == "Text":
     query = st.text_input("", key="text_search_box")
     search_fn = search_by_text
     if st.button("Search", key="text_search"):
-        matches = search_by_text(query, text_endpoint)
+        matches = search_by_text(input=query, server=TEXT_SERVER, port=TEXT_PORT)
     st.subheader("...or search from a sample")
     sample_texts = [
         "squidward school",
@@ -67,9 +68,7 @@ all_cells = [cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9]
 
 for cell, match in zip(all_cells, matches):
     if media_type == "Text":
-        cell.image("http:" + match["tags"]["image_url"])
+        cell.image("http:" + match.tags["image_url"])
     else:
-        cell.image(match["uri"], use_column_width="auto")
-
-if DEBUG:
-    st.json(matches)
+        # cell.image(match["uri"], use_column_width="auto")
+        cell.image(match.uri, use_column_width="auto")

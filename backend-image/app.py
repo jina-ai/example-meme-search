@@ -10,16 +10,18 @@ flow = (
     .add(name="image_normalizer", uses=ImageNormalizer)
     .add(
         name="meme_image_encoder",
-        uses="jinahub+docker://CLIPImageEncoder/v0.3",
+        uses="jinahub://CLIPImageEncoder/v0.3",
         uses_metas={"workspace": WORKSPACE_DIR},
         volumes="./data:/encoder/data",
+        install_requirements=True
     )
     .add(
         name="meme_image_indexer",
-        uses="jinahub+docker://SimpleIndexer/v0.11",
+        uses="jinahub://SimpleIndexer/v0.11",
         uses_with={"index_file_name": "index"},
         uses_metas={"workspace": WORKSPACE_DIR},
         volumes=f"./{WORKSPACE_DIR}:/workspace/workspace",
+        install_requirements=True
     )
 )
 
@@ -35,7 +37,7 @@ def index():
         flow.index(inputs=docs, show_progress=True, request_size=REQUEST_SIZE)
 
 
-def query_restful():
+def search():
 
     with flow:
         flow.protocol = "http"
@@ -43,7 +45,7 @@ def query_restful():
         flow.block()
 
 
-def query_grpc():
+def search_grpc():
     filename = sys.argv[2]
     query = Document(uri=filename)
 
@@ -57,12 +59,12 @@ def query_grpc():
 
 
 if len(sys.argv) < 1:
-    print("Supported arguments: index, query_restful, query_grpc")
+    print("Supported arguments: index, search, search_grpc")
 if sys.argv[1] == "index":
     index()
-elif sys.argv[1] == "query_restful":
-    query_restful()
-elif sys.argv[1] == "query_grpc":
-    query_grpc()
+elif sys.argv[1] == "search":
+    search()
+elif sys.argv[1] == "search_grpc":
+    search_grpc()
 else:
-    print("Supported arguments: index, query_restful, query_grpc")
+    print("Supported arguments: index, search, search_grpc")
