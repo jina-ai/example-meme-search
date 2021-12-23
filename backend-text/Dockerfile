@@ -1,10 +1,12 @@
-FROM jinaai/jina:2.0-py38
+FROM jinaai/jina:2.6.2-py39-standard
 
-ARG docs_to_index=100
-
+# setup the workspace
 COPY . /workspace
 WORKDIR /workspace
 
-RUN apt-get update && apt-get -y install wget git && pip install -r requirements.txt && sh get_data.sh && python app.py -t index -n $docs_to_index
+RUN apt-get update && apt-get install --no-install-recommends -y git build-essential g++\
+    && pip install -r requirements.txt
 
-ENTRYPOINT ["python", "app.py" , "-t", "query_restful"]
+ENTRYPOINT ["python", "app.py", "-t", "search"]
+
+EXPOSE 45679
