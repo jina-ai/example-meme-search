@@ -23,7 +23,6 @@ services:
       - 45679:45679
     volumes:
       - ./backend-text:/workspace
-      #- ./data:/data
     restart: always
 
   backend-image:
