@@ -18,14 +18,15 @@ I'm still revamping the README's, so documentation might not be fully up-to-date
 ### Set up
 
 - Create a virtual environment
+- `python get_memes.py 200000`  (where 200000 is the number of memes you want to download)
 
 ## Text search
 
 ```shell
 cd backend-text
 pip install -r requirements.txt
-python app.py -t index -n 1000    # Index 1000 memes
-python app.py -t query_restful    # Open RESTful gateway
+python app.py -t index -n 1000   # Index 1000 memes
+python app.py -t search          # Open RESTful gateway
 ```
 
 ## Image search
@@ -35,8 +36,8 @@ Edit `app.py` to set number of memes to index.
 ```shell
 cd backend-image
 pip install -r requirements.txt
-python app.py index               # Index memes
-python app.py query_restful       # Open RESTful gateway
+python app.py -t index -n 1000   # Index 1000 memes
+python app.py -t search          # Open RESTful gateway
 ```
 
 ## Frontend
@@ -46,6 +47,13 @@ cd frontend
 pip install -r requirements.txt
 streamlit app.py
 ```
+
+## Via `docker-compose`
+
+Note: This opens up the search interfaces for meme search, including the frontend. It **doesn't** index the data. Be sure to do that beforehand.
+
+1. Follow instructions above for setup and indexing (don't query anything yet)
+2. In root dir, `docker-compose up`
 
 ## Troubleshooting
 
