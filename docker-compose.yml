@@ -4,10 +4,11 @@ services:
   frontend:
     build: frontend
     environment:
-      - BACKEND_SERVER=backend
-      - DEBUG=False
+      - BACKEND_TEXT=backend-text
+      - BACKEND_IMAGE=backend-image
+      - DEBUG=True
     ports:
-      - 8501:8501
+      - 8510:8510
     depends_on:
       - backend-text
       - backend-image
@@ -19,17 +20,17 @@ services:
   backend-text:
     build: backend-text
     ports:
-      #- 12345:12345
+      - 45679:45679
     volumes:
       - ./backend-text:/workspace
       #- ./data:/data
     restart: always
 
   backend-image:
-    build: backend-text
+    build: backend-image
     ports:
-      #- 12345:12345
+      - 65432:65432
     volumes:
       - ./backend-image:/workspace
-      #- ./data:/data
+      - ./data:/data
     restart: always

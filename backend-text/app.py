@@ -10,13 +10,15 @@ flow = (
         name="meme_text_encoder",
         uses=f"jinahub://SpacyTextEncoder/v0.3",
         uses_with={"model_name": model},
-        install_requirements=True
+        install_requirements=True,
+        # force=True
     )
     .add(
         name="meme_text_indexer",
         uses=f"jinahub://SimpleIndexer/v0.11",
         volumes=f"./{WORKSPACE_DIR}:/workspace/workspace",
-        install_requirements=True
+        install_requirements=True,
+        # force=True
     )
 )
 

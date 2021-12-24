@@ -2,7 +2,7 @@ from jina import Executor, requests, Document, DocumentArray
 
 
 class ImageNormalizer(Executor):
-    @requests
+    @requests(on="/index")
     def process_images(self, docs, **kwargs):
         if type(docs) == Document:
             docs = DocumentArray([docs])
