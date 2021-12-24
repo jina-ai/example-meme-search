@@ -8,6 +8,10 @@ from helper import print_result, generate_docs
 
 flow = (
     Flow()
+    .add(
+        uses="jinahub://DocCache",
+        install_requirements=True
+    )
     .add(name="image_normalizer", uses=ImageNormalizer)
     .add(
         name="meme_image_encoder",
@@ -30,10 +34,6 @@ flow = (
 
 
 def index(num_docs=NUM_DOCS):
-    if os.path.exists(WORKSPACE_DIR):
-        print(f"'{WORKSPACE_DIR}' folder exists. Please delete")
-        sys.exit()
-
     docs = generate_docs(DATA_DIR, num_docs)
 
     with flow:
