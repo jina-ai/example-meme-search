@@ -40,3 +40,11 @@ def print_result(resp):
 
         for match in doc.matches:
             print(f"{match.uri}")
+
+def check_gpu():
+    import GPUtil
+    gpu_list = GPUtil.getAvailable()
+    if len(gpu_list) > 0:
+        return True
+    else:
+        return False

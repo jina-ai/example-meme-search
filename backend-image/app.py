@@ -4,7 +4,12 @@ import os
 from jina import Flow, Document
 from config import WORKSPACE_DIR, NUM_DOCS, DATA_DIR, REQUEST_SIZE, PORT
 from executors import ImageNormalizer
-from helper import print_result, generate_docs
+from helper import print_result, generate_docs, check_gpu
+
+encoder = "jinahub://CLIPImageEncoder/v0.3"
+
+if check_gpu:
+    encoder += "-gpu"
 
 flow = (
     Flow()
