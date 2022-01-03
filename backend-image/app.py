@@ -8,7 +8,7 @@ from helper import print_result, generate_docs, check_gpu
 
 encoder = "jinahub://CLIPImageEncoder/v0.3"
 
-if check_gpu:
+if check_gpu():
     encoder += "-gpu"
 
 flow = (
