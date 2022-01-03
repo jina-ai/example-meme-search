@@ -1,6 +1,6 @@
 import streamlit as st
 from config import IMAGE_PORT, IMAGE_SERVER, DEBUG, TEXT_PORT, TEXT_SERVER, TEXT_SAMPLES
-from helper import search_by_file, search_by_text, UI, convert_file_to_document
+from helper import search_by_file, search_by_text, UI, convert_file_to_document, get_image_url
 
 matches = []
 
@@ -63,5 +63,5 @@ for cell, match in zip(all_cells, matches):
     if media_type == "Text":
         cell.image("http:" + match.tags["image_url"])
     else:
-        # cell.image(match["uri"], use_column_width="auto")
-        cell.image(match.uri, use_column_width="auto")
+        cell.image(get_image_url(match.uri), use_column_width="auto")
+        # cell.image(match.uri, use_column_width="auto")

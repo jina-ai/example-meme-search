@@ -1,6 +1,7 @@
 from jina import Client, Document
 from config import TEXT_PORT, TEXT_SERVER, TOP_K
 
+
 class UI:
 
     repo_banner = """
@@ -90,3 +91,10 @@ def convert_file_to_document(query):
     print(doc)
 
     return doc
+
+
+def get_image_url(file_path, domain="http://i.imgflip.com/"):
+    filename = file_path.split("/")[-1]
+    url = domain + filename
+
+    return url
