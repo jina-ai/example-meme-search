@@ -9,9 +9,11 @@ from helper import print_result, generate_docs, check_gpu
 encoder = "jinahub://CLIPImageEncoder/v0.3"
 
 if check_gpu():
+    print("Using GPU")
     encoder += "-gpu"
     uses_with = {"device": "gpu"}
 else:
+    print("Using CPU")
     uses_with = {"device": "cpu"}
 
 flow = (
