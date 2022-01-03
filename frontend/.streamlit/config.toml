@@ -1,0 +1,6 @@
+[ server ]
+
+port = 8510
+
+[theme]
+primaryColor="#009191"

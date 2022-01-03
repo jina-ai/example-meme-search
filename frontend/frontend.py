@@ -1,10 +1,7 @@
 import streamlit as st
-import random
-import os
-from config import image_endpoint, text_endpoint, top_k, images_path, DEBUG
-from helper import search_by_file, search_by_text, UI, create_temp_file
+from config import IMAGE_PORT, IMAGE_SERVER, DEBUG, TEXT_PORT, TEXT_SERVER, TEXT_SAMPLES
+from helper import search_by_file, search_by_text, UI, convert_file_to_document, get_image_url
 
-endpoint = image_endpoint
 matches = []
 
 # Layout
@@ -23,8 +20,10 @@ st.sidebar.markdown(UI.about_block, unsafe_allow_html=True)
 
 if DEBUG:
     with st.sidebar.expander("Debug"):
-        text_endpoint = st.text_input(label="Text endpoint", value=text_endpoint)
-        image_endpoint = st.text_input(label="Image endpoint", value=image_endpoint)
+        TEXT_SERVER = st.text_input(label="Text server", value=TEXT_SERVER)
+        TEXT_PORT = st.text_input(label="Text port", value=TEXT_PORT)
+        IMAGE_SERVER = st.text_input(label="Image server", value=IMAGE_SERVER)
+        IMAGE_PORT = st.text_input(label="Image port", value=IMAGE_PORT)
 
 st.markdown(UI.repo_banner, unsafe_allow_html=True)
 
@@ -35,28 +34,23 @@ if media_type == "Image":
     upload_cell, preview_cell = st.columns([12, 1])
     query = upload_cell.file_uploader("")
     if query:
-        uploaded_image = create_temp_file(query)
-        preview_cell.image(uploaded_image)
+        doc = convert_file_to_document(query)
         if st.button(label="Search"):
             if not query:
                 st.markdown("Please enter a query")
             else:
-                matches = search_by_file(image_endpoint, "/tmp/query.png")
+                matches = search_by_file(document=doc, server=IMAGE_SERVER, port=IMAGE_PORT)
 
 elif media_type == "Text":
     query = st.text_input("", key="text_search_box")
     search_fn = search_by_text
     if st.button("Search", key="text_search"):
-        matches = search_by_text(query, text_endpoint)
+        matches = search_by_text(input=query, server=TEXT_SERVER, port=TEXT_PORT)
     st.subheader("...or search from a sample")
-    sample_texts = [
-        "squidward school",
-        "so you're telling me willy wonka",
-        "seagull kitkat",
-    ]
-    for text in sample_texts:
+    
+    for text in TEXT_SAMPLES:
         if st.button(text):
-            matches = search_by_text(text, text_endpoint)
+            matches = search_by_text(input=text, server=TEXT_SERVER, port=TEXT_PORT)
 
 
 # Results area
@@ -67,9 +61,7 @@ all_cells = [cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9]
 
 for cell, match in zip(all_cells, matches):
     if media_type == "Text":
-        cell.image("http:" + match["tags"]["image_url"])
+        cell.image("http:" + match.tags["image_url"])
     else:
-        cell.image(match["uri"], use_column_width="auto")
-
-if DEBUG:
-    st.json(matches)
+        cell.image(get_image_url(match.uri), use_column_width="auto")
+        # cell.image(match.uri, use_column_width="auto")

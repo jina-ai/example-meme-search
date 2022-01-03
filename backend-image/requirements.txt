@@ -1,0 +1,3 @@
+jina==2.6.2
+Pillow-SIMD==7.0.0.post3
+GPUtil==1.4.0

@@ -8,13 +8,17 @@ flow = (
     Flow()
     .add(
         name="meme_text_encoder",
-        uses=f"jinahub+docker://SpacyTextEncoder/v0.3",
+        uses=f"jinahub://SpacyTextEncoder/v0.3",
         uses_with={"model_name": model},
+        install_requirements=True,
+        # force=True
     )
     .add(
         name="meme_text_indexer",
-        uses=f"jinahub+docker://SimpleIndexer/v0.11",
+        uses=f"jinahub://SimpleIndexer/v0.11",
         volumes=f"./{WORKSPACE_DIR}:/workspace/workspace",
+        install_requirements=True,
+        # force=True
     )
 )
 
@@ -33,7 +37,7 @@ def index(num_docs: int = max_docs):
         )
 
 
-def query_restful():
+def search():
     """
     Query index
     """
@@ -47,7 +51,7 @@ def query_restful():
 @click.option(
     "--task",
     "-t",
-    type=click.Choice(["index", "query_restful"], case_sensitive=False),
+    type=click.Choice(["index", "search"], case_sensitive=False),
 )
 @click.option("--num_docs", "-n", default=max_docs)
 @click.option("--force", "-f", is_flag=True)
@@ -57,11 +61,11 @@ def main(task: str, num_docs: int, force: bool):
             dir_name=WORKSPACE_DIR, should_exist=False, force_remove=force
         )
         index(num_docs=num_docs)
-    elif task == "query_restful":
+    elif task == "search":
         deal_with_workspace(dir_name=WORKSPACE_DIR, should_exist=True)
-        query_restful()
+        search()
     else:
-        print("Please add '-t index' or '-t query_restful' to your command")
+        print("Please add '-t index' or '-t search' to your command")
 
 
 if __name__ == "__main__":

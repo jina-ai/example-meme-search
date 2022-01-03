@@ -1,0 +1,35 @@
+version: "3.7"
+
+services:
+  frontend:
+    build: frontend
+    environment:
+      - BACKEND_TEXT=backend-text
+      - BACKEND_IMAGE=backend-image
+      - DEBUG=True
+    ports:
+      - 8510:8510
+    depends_on:
+      - backend-text
+      - backend-image
+    volumes:
+      - ./frontend:/workspace
+      # - ./data:/data
+    restart: always
+
+  backend-text:
+    build: backend-text
+    ports:
+      - 45679:45679
+    volumes:
+      - ./backend-text:/workspace
+    restart: always
+
+  backend-image:
+    build: backend-image
+    ports:
+      - 65432:65432
+    volumes:
+      - ./backend-image:/workspace
+      # - ./data:/data
+    restart: always

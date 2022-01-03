@@ -1,8 +1,6 @@
-import requests
-import magic
-import os
+from jina import Client, Document
+from config import TEXT_PORT, TEXT_SERVER, TOP_K
 
-repo_banner_file = os.path.abspath("./eah.svg")
 
 class UI:
 
@@ -54,57 +52,49 @@ class UI:
 headers = {"Content-Type": "application/json"}
 
 
-def search_by_text(query: str, endpoint: str):
-    """search_by_text.
-
-    :param query:
-    :type query: str
-    :param endpoint:
-    :type endpoint: str
-    :param top_k:
-    :type top_k: int
-    :rtype: dict
-    """
-    data = '{"data":["' + query + '"]}'
-
-    response = requests.post(endpoint, headers=headers, data=data)
-    content = response.json()
-
-    try:
-        matches = content["data"]["docs"][0]["matches"]
-
-        return matches
-    except:
-        print("Something's gone wrong. Printing raw response on terminal")
-        print(content)
-
-
-def search_by_file(endpoint, filename="query.png"):
-    """search_by_file.
-
-    :param endpoint:
-    :param filename:
-    """
-    filename = os.path.abspath(filename)
-
-    data = '{"data": [{"uri":"' + filename + '"}]}'
-
-    response = requests.post(endpoint, headers=headers, data=data)
-    content = response.json()
-    matches = content["data"]["docs"][0]["matches"]
+def search_by_text(input, server=TEXT_SERVER, port=TEXT_PORT, limit=TOP_K):
+    client = Client(host=server, protocol="http", port=port)
+    response = client.search(
+        Document(text=input),
+        parameters={"limit": limit},
+        return_results=True,
+        show_progress=True,
+    )
+    print(response)
+    matches = response[0].docs[0].matches
 
     return matches
 
 
-def create_temp_file(query, output_file="/tmp/query.png"):
-    """create_temp_file.
-
-    :param query:
-    :param output_file:
+def search_by_file(document, server=TEXT_SERVER, port=TEXT_PORT, limit=TOP_K):
     """
+    Wrap file in Jina Document for searching, and do all necessary conversion to make similar to indexed Docs
+    """
+    client = Client(host=server, protocol="http", port=port)
+    query_doc = document
+    query_doc.convert_buffer_to_image_blob()
+    response = client.search(
+        query_doc,
+        parameters={"limit": limit},
+        return_results=True,
+        show_progress=True,
+    )
+    matches = response[0].docs[0].matches
+
+    return matches
+
+
+def convert_file_to_document(query):
     data = query.read()
 
-    with open(output_file, "wb") as file:
-        file.write(data)
+    doc = Document(buffer=data)
+    print(doc)
 
-    return output_file
+    return doc
+
+
+def get_image_url(file_path, domain="http://i.imgflip.com/"):
+    filename = file_path.split("/")[-1]
+    url = domain + filename
+
+    return url

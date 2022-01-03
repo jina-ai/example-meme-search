@@ -20,7 +20,7 @@ def get_json(url, output_dir):
                 file.write(r.content)
 
 
-def prep_docs(input_file, max_docs, output_dir, random_seed=42, shuffle=True):
+def prep_docs(input_file, max_docs, output_dir, random_seed=1337, shuffle=True):
     print(f"Preparing {max_docs} Documents")
 
     memes = []
@@ -47,15 +47,19 @@ def prep_docs(input_file, max_docs, output_dir, random_seed=42, shuffle=True):
 
         url = f'http:{meme["image_url"]}'
         filename = meme["image_url"].split("/")[-1]
-        print(f"Downloading {filename} - {counter}/{max_docs}")
-        try:
-            r = requests.get(url, allow_redirects=True)
-            if r.status_code == 200:
-                with open(filename, "wb") as file:
-                    file.write(r.content)
-            counter += 1
-        except:
-            print(f"Error on {filename}, skipping.")
+        if not os.path.isfile(filename):
+            print(f"Downloading {filename} - {counter}/{max_docs}")
+            try:
+                r = requests.get(url, allow_redirects=True)
+                if r.status_code == 200:
+                    with open(filename, "wb") as file:
+                        file.write(r.content)
+                counter += 1
+            except:
+                print(f"Error on {filename}, skipping.")
+        else:
+            print(f"{filename} already downloaded, skipping")
+            counter +=1
 
 
 get_json(url=JSON_URL, output_dir=OUTPUT_DIR)
