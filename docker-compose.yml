@@ -14,7 +14,7 @@ services:
       - backend-image
     volumes:
       - ./frontend:/workspace
-      - ./data:/data
+      # - ./data:/data
     restart: always
 
   backend-text:
@@ -31,5 +31,5 @@ services:
       - 65432:65432
     volumes:
       - ./backend-image:/workspace
-      - ./data:/data
+      # - ./data:/data
     restart: always

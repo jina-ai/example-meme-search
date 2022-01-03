@@ -1,4 +1,2 @@
-env
-workspace*
-data
-tags
+*/env
+*/__pycache__
