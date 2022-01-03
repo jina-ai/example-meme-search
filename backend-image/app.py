@@ -11,7 +11,7 @@ encoder = "jinahub://CLIPImageEncoder/v0.3"
 if check_gpu():
     print("Using GPU")
     encoder += "-gpu"
-    uses_with = {"device": "gpu"}
+    uses_with = {"device": "cuda"}
 else:
     print("Using CPU")
     uses_with = {"device": "cpu"}
