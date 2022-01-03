@@ -10,6 +10,9 @@ encoder = "jinahub://CLIPImageEncoder/v0.3"
 
 if check_gpu():
     encoder += "-gpu"
+    uses_with = {"device": "gpu"}
+else:
+    uses_with = {"device": "cpu"}
 
 flow = (
     Flow()
@@ -22,6 +25,7 @@ flow = (
         name="meme_image_encoder",
         uses="jinahub://CLIPImageEncoder/v0.3",
         uses_metas={"workspace": WORKSPACE_DIR},
+        uses_with=uses_with,
         volumes="./data:/encoder/data",
         install_requirements=True,
         # force=True
