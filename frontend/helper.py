@@ -1,5 +1,5 @@
 from jina import Client, Document
-from config import TEXT_PORT, TEXT_SERVER, TOP_K
+from config import TEXT_PORT, TEXT_SERVER, IMAGE_PORT, IMAGE_SERVER, TOP_K
 
 
 class UI:
@@ -48,7 +48,7 @@ def search_by_text(input, server=TEXT_SERVER, port=TEXT_PORT, limit=TOP_K):
     return matches
 
 
-def search_by_file(document, server=TEXT_SERVER, port=TEXT_PORT, limit=TOP_K):
+def search_by_file(document, server=IMAGE_SERVER, port=IMAGE_PORT, limit=TOP_K):
     """
     Wrap file in Jina Document for searching, and do all necessary conversion to make similar to indexed Docs
     """
