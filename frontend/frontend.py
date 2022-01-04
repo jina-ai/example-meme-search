@@ -25,10 +25,8 @@ if DEBUG:
         IMAGE_SERVER = st.text_input(label="Image server", value=IMAGE_SERVER)
         IMAGE_PORT = st.text_input(label="Image port", value=IMAGE_PORT)
 
-st.markdown(UI.repo_banner, unsafe_allow_html=True)
-
-st.header("What do you want to search with?")
-media_type = st.radio("", ["Text", "Image"])
+st.header("Jina Meme Search")
+media_type = st.radio("Search with...", ["Text", "Image"])
 
 if media_type == "Image":
     upload_cell, preview_cell = st.columns([12, 1])
@@ -61,7 +59,7 @@ all_cells = [cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9]
 
 for cell, match in zip(all_cells, matches):
     if media_type == "Text":
+        pass
         cell.image("http:" + match.tags["image_url"])
     else:
-        cell.image(get_image_url(match.uri), use_column_width="auto")
-        # cell.image(match.uri, use_column_width="auto")
+        cell.image(get_image_url(match.uri))
