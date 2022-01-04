@@ -3,22 +3,6 @@ from config import TEXT_PORT, TEXT_SERVER, TOP_K
 
 
 class UI:
-
-    repo_banner = """
-<div xmlns="http://www.w3.org/1999/xhtml" style="background-color: #fffbdd; text-align:center; margin-left: auto; margin-right: auto; border-radius: 6px; border-style: solid; border-width: 1px; border-color: #b0880033; color: #24292e; width: 100%">
-            <style>
-            p {
-                font-family: sans-serif;
-                font-size: max(1em, 12px);
-            }
-            </style>
-            <p>
-                <h3 style="color:#000">⭐ Like what you see?</h3>
-                Star <a href="https://github.com/jina-ai/jina/" target="_blank">Jina's GitHub repo</a> and join our <a href="https://slack.jina.ai">Slack community</a>
-            </p>
-        </div>
-    """
-
     about_block = """
 
     ### About
@@ -29,7 +13,6 @@ class UI:
     - [Play with it in a notebook](https://colab.research.google.com/github/jina-ai/workshops/blob/main/memes/meme_search.ipynb) (text-only)
     - [Repo](https://github.com/alexcg1/jina-meme-search)
     - [Dataset](https://www.kaggle.com/abhishtagatya/imgflipscraped-memes-caption-dataset)
-    - [This meme search sucks and I hate it](https://github.com/alexcg1/jina-meme-search/blob/main/your-meme-search-sucks.md)
     """
 
     css = f"""
