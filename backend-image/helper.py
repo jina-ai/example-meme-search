@@ -8,7 +8,6 @@ def generate_docs(directory, num_docs=NUM_DOCS, formats=FORMATS):
         docarray = DocumentArray.from_files(f"{directory}/**/*.{format}", size=num_docs)
         docs.extend(docarray)
 
-
     # docs = process_images(docs)
 
     return docs[:num_docs]
@@ -41,8 +40,10 @@ def print_result(resp):
         for match in doc.matches:
             print(f"{match.uri}")
 
+
 def check_gpu():
     import GPUtil
+
     gpu_list = GPUtil.getAvailable()
     if len(gpu_list) > 0:
         return True
