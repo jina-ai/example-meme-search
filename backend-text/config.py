@@ -1,6 +1,9 @@
-model = "en_core_web_md" # Which SpaCy model do we use?
-port = 45679
+import os
+
+MODEL = "en_core_web_md" # Which SpaCy model do we use?
+PORT = 45679
 WORKSPACE_DIR = "workspace"
-datafile = "../data/memes.json"
-max_docs = 1000
-random_seed = 1337
+CACHE_DIR = os.path.expanduser('~/.cache')
+DATAFILE = "../data/memes.json"
+MAX_DOCS = 1000
+RANDOM_SEED = 1337
