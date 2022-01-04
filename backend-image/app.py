@@ -28,6 +28,7 @@ flow = (
         uses="jinahub://CLIPImageEncoder/v0.3",
         uses_metas={"workspace": WORKSPACE_DIR},
         uses_with=uses_with,
+        gpus="all",
         volumes="./data:/encoder/data",
         install_requirements=True,
     )
