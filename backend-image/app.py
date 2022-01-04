@@ -30,16 +30,17 @@ flow = (
         uses_with=uses_with,
         volumes="./data:/encoder/data",
         install_requirements=True,
-        # force=True
     )
     .add(
         name="meme_image_indexer",
-        uses="jinahub://SimpleIndexer/v0.11",
-        uses_with={"index_file_name": "index"},
-        uses_metas={"workspace": WORKSPACE_DIR},
+        uses="jinahub://PQLiteIndexer/v0.1.3",
+        uses_with={
+            "limit": 12,
+            "dim": 512, # SpaCy en_core_md uses 300 dims
+            "include_metadata": True
+        },
         volumes=f"./{WORKSPACE_DIR}:/workspace/workspace",
         install_requirements=True,
-        # force=True
     )
 )
 
@@ -89,15 +90,3 @@ def main(task: str, num_docs):
 
 if __name__ == "__main__":
     main()
-
-# print(f"DEBUG {sys.argv=}")
-# if len(sys.argv) < 1:
-    # print("Supported arguments: index, search, search_grpc")
-# if sys.argv[1] == "index":
-    # index()
-# elif sys.argv[1] == "search":
-    # search()
-# elif sys.argv[1] == "search_grpc":
-    # search_grpc()
-# else:
-    # print("Supported arguments: index, search, search_grpc")
