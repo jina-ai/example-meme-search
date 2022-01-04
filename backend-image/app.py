@@ -25,7 +25,7 @@ flow = (
     .add(name="image_normalizer", uses=ImageNormalizer)
     .add(
         name="meme_image_encoder",
-        uses="jinahub://CLIPImageEncoder/v0.3",
+        uses=encoder,
         uses_metas={"workspace": WORKSPACE_DIR},
         uses_with=uses_with,
         gpus="all",
