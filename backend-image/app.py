@@ -56,8 +56,9 @@ def index(num_docs=NUM_DOCS):
         flow.index(inputs=docs, show_progress=True, request_size=REQUEST_SIZE)
         if BENCHMARK:
             end_time = datetime.now()
-            difference = start_time - end_time
-            minutes = timedelta(difference.seconds() / 60)
+            difference = end_time - start_time
+            print(difference.seconds)
+            minutes = difference.seconds / 60
             print(f"Indexing took {minutes} minutes ({minutes/60} hours)")
 
 
