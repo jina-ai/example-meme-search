@@ -2,9 +2,10 @@ import click
 import sys
 import os
 from jina import Flow, Document
-from config import WORKSPACE_DIR, NUM_DOCS, DATA_DIR, REQUEST_SIZE, PORT
+from config import WORKSPACE_DIR, NUM_DOCS, DATA_DIR, REQUEST_SIZE, PORT, BENCHMARK
 from executors import ImageNormalizer
 from helper import print_result, generate_docs, check_gpu
+from datetime import datetime, timedelta
 
 encoder = "jinahub://CLIPImageEncoder/v0.3"
 
@@ -50,7 +51,16 @@ def index(num_docs=NUM_DOCS):
     docs = generate_docs(DATA_DIR, num_docs)
 
     with flow:
+        if BENCHMARK:
+            start_time = datetime.now()
         flow.index(inputs=docs, show_progress=True, request_size=REQUEST_SIZE)
+        if BENCHMARK:
+            end_time = datetime.now()
+            difference = start_time - end_time
+            minutes = timedelta(difference.seconds() / 60)
+            print(f"Indexing took {minutes} minutes ({minutes/60} hours)")
+
+
 
 
 def search():
