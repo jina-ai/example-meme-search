@@ -4,18 +4,18 @@ from config import PORT, WORKSPACE_DIR, DATAFILE, MAX_DOCS, MODEL, CACHE_DIR
 from helper import prep_docs
 
 flow = (
-    Flow()
-    .add(uses="jinahub://DocCache")
+    Flow(protocol="http", port=PORT)
     .add(
         name="meme_text_encoder",
-        uses="jinahub://SpacyTextEncoder/v0.3",
+        uses="jinahub://SpacyTextEncoder/v0.4",
+        # uses_with={"model_name": MODEL, "traversal_paths": "r"},
         uses_with={"model_name": MODEL},
-        volumes=f"{CACHE_DIR}:/root/.cache",
+        # volumes=f"{CACHE_DIR}:/root/.cache",
         install_requirements=True,
     )
     .add(
         name="meme_text_indexer",
-        uses="jinahub://PQLiteIndexer/v0.1.3",
+        uses="jinahub://PQLiteIndexer/latest",
         uses_with={
             "limit": 12,
             "dim": 300, # SpaCy en_core_md uses 300 dims
@@ -49,8 +49,8 @@ def search():
     Query index
     """
     with flow:
-        flow.protocol = "http"
-        flow.port_expose = PORT
+        # flow.protocol = "http"
+        # flow.port_expose = PORT
         flow.block()
 
 

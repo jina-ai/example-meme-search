@@ -1,4 +1,5 @@
-from jina import Executor, requests, Document, DocumentArray
+from jina import Executor, requests
+from docarray import Document, DocumentArray
 
 
 class ImageNormalizer(Executor):
@@ -8,6 +9,6 @@ class ImageNormalizer(Executor):
             docs = DocumentArray([docs])
 
         for doc in docs:
-            doc.load_uri_to_image_blob()
-            doc.set_image_blob_shape((64, 64))
-            doc.set_image_blob_normalization()
+            doc.load_uri_to_image_tensor()
+            doc.set_image_tensor_shape((64, 64))
+            doc.set_image_tensor_normalization()

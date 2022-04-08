@@ -1,4 +1,4 @@
-jina==2.6.2
+jina==3.2.10
 Pillow-SIMD==7.0.0.post3
-streamlit==1.0
+streamlit==1.5
 python-magic==0.4.24

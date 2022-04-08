@@ -43,7 +43,8 @@ def search_by_text(input, server=TEXT_SERVER, port=TEXT_PORT, limit=TOP_K):
         return_results=True,
         show_progress=True,
     )
-    matches = response[0].docs[0].matches
+    print(response)
+    matches = response[0].matches
 
     return matches
 
@@ -54,16 +55,16 @@ def search_by_file(document, server=IMAGE_SERVER, port=IMAGE_PORT, limit=TOP_K):
     """
     client = Client(host=server, protocol="http", port=port)
     query_doc = document
-    query_doc.convert_buffer_to_image_blob()
-    query_doc.set_image_blob_shape((64, 64))
-    query_doc.set_image_blob_normalization()
+    query_doc.convert_blob_to_image_tensor()
+    query_doc.set_image_tensor_shape((64,64))
+    query_doc.set_image_tensor_normalization()
     response = client.search(
         query_doc,
         parameters={"limit": limit},
         return_results=True,
         show_progress=True,
     )
-    matches = response[0].docs[0].matches
+    matches = response[0].matches
 
     return matches
 
@@ -71,8 +72,8 @@ def search_by_file(document, server=IMAGE_SERVER, port=IMAGE_PORT, limit=TOP_K):
 def convert_file_to_document(query):
     data = query.read()
 
-    doc = Document(buffer=data)
-    print(doc)
+    doc = Document(blob=data)
+    # print(doc)
 
     return doc
 
