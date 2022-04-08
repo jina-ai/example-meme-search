@@ -15,7 +15,7 @@ flow = (
     )
     .add(
         name="meme_text_indexer",
-        uses="jinahub://PQLiteIndexer/latest",
+        uses="jinahub://PQLiteIndexer/v0.2.6",
         uses_with={
             "limit": 12,
             "dim": 300, # SpaCy en_core_md uses 300 dims

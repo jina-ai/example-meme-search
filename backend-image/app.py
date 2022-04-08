@@ -29,7 +29,7 @@ flow = (
     )
     .add(
         name="meme_image_indexer",
-        uses="jinahub://PQLiteIndexer/",
+        uses="jinahub://PQLiteIndexer/v0.2.6",
         uses_with={
             "limit": 12,
             "dim": 512, # SpaCy en_core_md uses 300 dims
