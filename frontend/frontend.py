@@ -1,5 +1,5 @@
 import streamlit as st
-from config import IMAGE_PORT, IMAGE_SERVER, DEBUG, TEXT_PORT, TEXT_SERVER, TEXT_SAMPLES
+from config import IMAGE_PORT, IMAGE_SERVER, DEBUG, TEXT_PORT, TEXT_SERVER, TEXT_SAMPLES, DATA_DIR
 from helper import search_by_file, search_by_text, UI, convert_file_to_document, get_image_url
 
 matches = []
@@ -41,9 +41,9 @@ if media_type == "Image":
 
 elif media_type == "Text":
     query = st.text_input("", key="text_search_box")
-    search_fn = search_by_text
     if st.button("Search", key="text_search"):
         matches = search_by_text(input=query, server=TEXT_SERVER, port=TEXT_PORT)
+        print(matches[0].tags)
     st.subheader("...or search from a sample")
     
     for text in TEXT_SAMPLES:
@@ -59,7 +59,6 @@ all_cells = [cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9]
 
 for cell, match in zip(all_cells, matches):
     if media_type == "Text":
-        pass
-        cell.image("http:" + match.tags["image_url"])
+        cell.image(f"http:{match.tags['image_url']}")
     else:
         cell.image(get_image_url(match.uri))

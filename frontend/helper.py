@@ -40,10 +40,7 @@ def search_by_text(input, server=TEXT_SERVER, port=TEXT_PORT, limit=TOP_K):
     response = client.search(
         Document(text=input),
         parameters={"limit": limit},
-        return_results=True,
-        show_progress=True,
     )
-    print(response)
     matches = response[0].matches
 
     return matches

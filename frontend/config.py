@@ -12,5 +12,5 @@ IMAGE_PORT = 65432
 # General
 TOP_K = 10
 DEBUG = os.getenv("DEBUG", False)
-DATA_DIR = "../data/images/"
+DATA_DIR = "../data"
 
