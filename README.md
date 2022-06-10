@@ -1,3 +1,7 @@
+# This repo is deprecated. This code will not run with recent versions of Jina!
+
+---
+
 # Jina meme search
 
 In this repo you can find three folders to help build your own meme search engine powered by [Jina](https://github.com/jina-ai/jina/).
